@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            transition: background-color 1s ease-in-out;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        .input-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        input {
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+        }
+        .eye-icon {
+            position: absolute;
+            right: 10px;
+            cursor: pointer;
+            color: #888;
+        }
+        .eye-icon:hover {
+            color: #007BFF;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            color: red;
+        }
+        p {
+            margin-top: 10px;
+        }
+        a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <!-- FontAwesome for icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Login</h2>
+        
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+            <input type="email" name="email" placeholder="Email" required>
+
+            <div class="input-container">
+                <input type="password" id="password" name="password" placeholder="Password" required>
+                <i class="eye-icon fas fa-eye" id="togglePassword"></i>
+            </div>
+
+            <button type="submit">Login</button>
+            <a href="{{ url_for('forgot_password') }}" class="forgot-password">Forgot Password?</a>
+        </form>
+        
+        <p>Don't have an account? <a href="{{ url_for('signup') }}">Sign up here</a></p>
+       
+       
+    </div>
+
+    <script>
+        const colors = ["#f4f4f4", "#ffcccb", "#d1e7dd", "#fff3cd", "#cce5ff"];
+        let index = 0;
+
+        function changeBackgroundColor() {
+            document.body.style.backgroundColor = colors[index];
+            index = (index + 1) % colors.length;
+        }
+
+        setInterval(changeBackgroundColor, 10000); // Change color every 10 seconds
+
+        // Toggle Password Visibility
+        document.getElementById("togglePassword").addEventListener("click", function () {
+            let passwordField = document.getElementById("password");
+
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                this.classList.remove("fa-eye");
+                this.classList.add("fa-eye-slash");
+            } else {
+                passwordField.type = "password";
+                this.classList.remove("fa-eye-slash");
+                this.classList.add("fa-eye");
+            }
+        });
+    </script>
+
+</body>
+</html>
